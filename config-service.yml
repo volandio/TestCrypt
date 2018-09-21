@@ -10,8 +10,8 @@ spring:
         jdbc:
           sql:  "with vars as (select ? :: varchar as app, ? :: varchar   as profile, ? :: varchar  as  label ) select t1.key, case when (t2.value is null) then t3.value else t2.value end from (SELECT distinct key from properties where (APPLICATION = (select app from vars) or APPLICATION = 'all') and PROFILE = (select profile from vars) and LABEL = (select label from vars)) t1 left outer join (select key, value from properties where APPLICATION = (select app from vars) and PROFILE = (select profile from vars) and LABEL = (select label from vars)) t2 on t2.key = t1.key left outer join (select key, value from properties where APPLICATION = 'all' and PROFILE = (select profile from vars) and LABEL = (select label from vars)) t3 on t3.key = t1.key;"
           order: 1
-        git:
-          uri: https://github.com/volandio/TestCrypt
+#        git:
+#          uri: https://github.com/volandio/TestCrypt
   #          uri: git@git.one.nextbi.ru:config-repository-${spring.profiles.active:dev}
   #          ignoreLocalSshSettings: true
   #          private-key: |

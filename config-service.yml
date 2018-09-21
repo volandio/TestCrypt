@@ -1,0 +1,85 @@
+spring:
+  #  security:
+  #    user:
+  #      name: XXX
+  #      password: XXX
+  cloud:
+    config:
+      override-none: true # разрешение на переопределение данной конфигурации локальной
+      server:
+        jdbc:
+          sql:  "with vars as (select ? :: varchar as app, ? :: varchar   as profile, ? :: varchar  as  label ) select t1.key, case when (t2.value is null) then t3.value else t2.value end from (SELECT distinct key from properties where (APPLICATION = (select app from vars) or APPLICATION = 'all') and PROFILE = (select profile from vars) and LABEL = (select label from vars)) t1 left outer join (select key, value from properties where APPLICATION = (select app from vars) and PROFILE = (select profile from vars) and LABEL = (select label from vars)) t2 on t2.key = t1.key left outer join (select key, value from properties where APPLICATION = 'all' and PROFILE = (select profile from vars) and LABEL = (select label from vars)) t3 on t3.key = t1.key;"
+          order: 1
+        git:
+          uri: https://github.com/volandio/TestCrypt
+  #          uri: git@git.one.nextbi.ru:config-repository-${spring.profiles.active:dev}
+  #          ignoreLocalSshSettings: true
+  #          private-key: |
+  #                        -----BEGIN RSA PRIVATE KEY-----
+  #                        MIIEpQIBAAKCAQEAtOy/TucRUxx60HOnxCOlbLCWWtR0IigthgWg5gBnakF2sUum
+  #                        VKwGIPp4aHowcT2GBm6xlONoHP96PIuLpRUjPouUhmz+vGm5K4gq6QlqeYtEeJXU
+  #                        A/BwRCmgP0j0JOlvr0zSVMqCT7Jupf14/kgxYnXXYwvmASNR8zaU5lTXYjhF9OPX
+  #                        0hoiYCiiqL/ROFn6OmaHly+J7zD5dBuYhn4AyNM3dIZnBum5Y2B/EcJN0udEkJsH
+  #                        sJbjElFlLpPucHjoYuJVpZxd97ByVBQK1CysgO9KnSBTAVibJlnssB52+LF6Q2ij
+  #                        cfIRjJiJ/YN/Tzbw9fxJgeSr/Pgnz6PL3iiX0wIDAQABAoIBAQCCZvEsaZcvFCPh
+  #                        Ars0v4yH3m9AYEikJdlJ89yYakofZ7eo6iGkfaidNGp8wzUPKYzkLfyIl69+1xS/
+  #                        dsTb43RXrDsM+JpSKtFv8uEavdKkcCCV2UfK3w3L00TQ2EBAKpB5BSHEQ4HQ94aQ
+  #                        1TTT8izGDrGDjhvlThPO/NQtf5EOFNL6wjHUaertlSU4K6Z9HyRyJG38Gc1um9aH
+  #                        V+a+dXPwiiXrRImjoI+bZcZgISG0N3j5o6u/3BAdSCQuhGjqwira8lb8CpbRemDw
+  #                        0A/eumJBkrGPJe/Rbz0W0RqRVm6IU24nUwf6YLZZ5xEtxl6Uq5TuXMnyhQn3Cloj
+  #                        XaKbdirhAoGBANeHQOuwO0xf1Xh3+sgb/yD38Q9QmKJrtr1kJiGNoPGyBWHX3A4b
+  #                        yBSNnLEAB40PqD6+BdTKWi0KnIZPH8dwq4gI94Di2pCMzBI3Gw14BcR0ID4nVx3n
+  #                        /AiCd+4X4IDMPBb8ouipupZ6TCPoU22X9XyJRP7AoXNy3N6UXxe9OgNnAoGBANbm
+  #                        Da9rMCe1tR09yy2GuMtVyo6JXCtXz3I4KLkI+C/xVR2pyglFbn92MvZLRD+/UOak
+  #                        nwL4k/0E/s7AXRx9Xk8tCV2PZHYj2HX9tPscqlvbLovw0EIsrqIsJCZAvh/57/Gl
+  #                        J1RYF6cmsKqPabXIdOOPJ1L/GEX6ygHmfEa7zFC1AoGBAI16T3dnO8Wqsupdd9Wb
+  #                        6yGtICQ5d7hGlLJF53HnElsVzMqpc94fBnvXaaAWsN48BOkKu7EvE3q1mIHhtq6o
+  #                        mzC1EiMcxvRUODFM0wlIXCDVScUC9gC/o4XCfw9fxRNG/brpI9cuczkMFqcLfphW
+  #                        Q+L4CL5hnJm4MJw7MSDYKhjJAoGBANDwzM2KAkAZxAayViHlozbQKyl7FEpwDhqX
+  #                        z8BYoDa9BmzY8L8i6tSzL8mYVLtGYHpgBNr2payUdsq+7ckNe+yvdTOqf5r+LzBJ
+  #                        hPXCYUD+UrttYI92sjSrhlpLCJA+irUARsUTAaxbSdoLplRAmqXGQg3ISOmBdXdz
+  #                        idGcNoMhAoGAFdVfIW4T71nWu5vm1xoMXDE0igvXCfWc5Ix0K3po03HHdSsz02M9
+  #                        9pJ7+pDmdNT4Tf9EjXAGcoxJ5snp1HBYejick7cdCW3v9vMgSuIiptvlYNJEJbRI
+  #                        jlREvmc5RAyJ935MT3x9LEC5xZkPRGpPBv4TTdTNwTdRffFMFxxRJqQ=
+  #                        -----END RSA PRIVATE KEY-----
+  #          order: 2
+  #    bus:
+  #      refresh:
+  #        enabled: false
+
+  datasource:
+    url: jdbc:postgresql://${nextbi.database.ip:localhost}:5432/${nextbi.profile:dev}_config
+    username: postgres
+    password: 123456
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      idle-timeout: 30000
+      minimum-idle: 5
+      driver-class-name: org.postgresql.Driver
+      auto-commit: true
+    type: com.zaxxer.hikari.HikariDataSource
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        default_schema: public
+        globally_quoted_identifiers: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+  rabbitmq:
+    host: ${nextbi.rabbitmq.ip:localhost}
+    username: "${spring.application.name}"
+    password: "${spring.application.name}"
+    port: 5672
+    virtual-host: vh_notification
+
+#nextbi.rabbitmq.ip: dev.one.nextbi.ru
+nextbi.rabbitmq.ip: localhost
+#nextbi.database.ip: 192.168.50.115
+nextbi.database.ip: localhost

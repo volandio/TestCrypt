@@ -1,0 +1,76 @@
+server:
+  port: 8088
+spring:
+  datasource:
+    url: jdbc:postgresql://${nextbi.database.ip:localhost}:5432/${nextbi.profile:dev}_auth_service
+    username: ${nextbi.database.username}
+    password: ${nextbi.database.password}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+  mail:
+    host: mail.nextbi.ru
+    port: 465
+    username: robot1
+    password: eRiqxD1ghn
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+            trust: mail.nextbi.ru
+  cloud:
+    config:
+      override-none: true # разрешение на переопределение данной конфигурации локальной
+
+nextbi:
+  auth-service:
+    filtered-service-names: mail-service,config-service,eureka-service,test-gen-service,transaction-gate-service,exit-gate-service,enrichment-service,caching-service,scheduling-service,sms-service #сервисы Eureka через запятую, которые не должны показываться в UI
+  access-objects:
+    service-object:
+      uuid: ${nextbi.security.forbidden-to-edit-menu.auth-service.service-object-uuid}
+      uuid-parent: ${nextbi.security.main-object-uuid}
+      type: service
+      login: ${nextbi.security.supervisor-login}
+      readable: true
+      writable: false
+      executable: false
+      removable: false
+    users:
+      uuid: ${nextbi.security.forbidden-to-edit-menu.auth-service.users-uuid}
+      uuid-parent: ${nextbi.access-objects.service-object.uuid}
+      type: functions
+      login: ${nextbi.security.supervisor-login}
+      readable: true
+      writable: true
+      executable: false
+      removable: false
+    groups:
+      uuid: ${nextbi.security.forbidden-to-edit-menu.auth-service.groups-uuid}
+      uuid-parent: ${nextbi.access-objects.service-object.uuid}
+      type: functions
+      login: ${nextbi.security.supervisor-login}
+      readable: true
+      writable: true
+      executable: false
+      removable: false
+    menu-items:
+      uuid: ${nextbi.security.forbidden-to-edit-menu.auth-service.menu-items}
+      uuid-parent: ${nextbi.access-objects.service-object.uuid}
+      type: functions
+      login: ${nextbi.security.supervisor-login}
+      readable: true
+      writable: true
+      executable: false
+      removable: false
+
+eureka:
+  instance:
+    metadata-map:
+      NEXTBI_NAME: Управление доступом
+      NEXTBI_UUID: ${nextbi.access-objects.service-object.uuid}
+      NEXTBI_ICON: supervisor_account
+      NEXTBI_MENU_LABELS: Пользователи,Группы,Доступ к разделам
+      NEXTBI_MENU_UUIDS: ${nextbi.access-objects.users.uuid},${nextbi.access-objects.groups.uuid},${nextbi.access-objects.menu-items.uuid}
+      NEXTBI_MENU_PATHS: ${spring.application.name}/users,${spring.application.name}/groups,${spring.application.name}/menu-items

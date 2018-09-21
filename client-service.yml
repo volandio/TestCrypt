@@ -1,0 +1,115 @@
+nextbi:
+  client-service:
+    security:
+      time-life-cache-minutes: 15
+      number-attempts-incorrect-password: 3
+  access-objects:
+    service-object:
+      uuid: ${nextbi.security.forbidden-to-edit-menu.client-service.service-object-uuid}
+      uuid-parent: ${nextbi.security.main-object-uuid}
+      type: service
+      login: ${nextbi.security.supervisor-login}
+      readable: true
+      writable: false
+      executable: false
+      removable: false
+    settings:
+      uuid: ${nextbi.security.forbidden-to-edit-menu.client-service.settings-object-uuid}
+      uuid-parent: ${nextbi.access-objects.service-object.uuid}
+      type: functions
+      login: ${nextbi.security.supervisor-login}
+      readable: true
+      writable: true
+      executable: false
+      removable: false
+
+spring:
+  cloud:
+    config:
+      override-none: true # разрешение на переопределение данной конфигурации локальной
+  thymeleaf:
+    cache: false
+    prefix: classpath:/static/
+  datasource:
+    url: jdbc:postgresql://${nextbi.database.ip}:5432/${nextbi.profile}_auth_service
+    username: ${nextbi.database.username}
+    password: ${nextbi.database.password}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  servlet:
+    multipart:
+      max-file-size: 10240MB
+      max-request-size: 10240MB
+
+eureka:
+  instance:
+    metadata-map:
+      NEXTBI_NAME: Состояние системы
+      NEXTBI_UUID: ${nextbi.access-objects.service-object.uuid}
+      NEXTBI_ICON: settings
+      NEXTBI_MENU_LABELS: Состояние сервисов
+      NEXTBI_MENU_UUIDS: ${nextbi.access-objects.settings.uuid}
+      NEXTBI_MENU_PATHS: service-state
+
+ribbon:
+  ConnectTimeout: 3000
+  ReadTimeout: 60000
+
+zuul:
+  ws:
+    brokerages:
+      workstation-service:
+        end-points: /api/ws/websocket
+        brokers:  /api/ws/topic
+        destination-prefixes: /api/ws/app
+      test-service:
+        end-points: /api/ws/test-service/websocket
+        brokers:  /api/ws/test-service/topic
+        destination-prefixes: /api/ws/test-service/app
+  routes:
+    test-service:
+      path: /test-service/**
+      serviceId: test-service
+      sensitive-headers: Set-Cookie,Authorization
+    auth-service:
+      path: /auth-service/**
+      serviceId: auth-service
+      sensitive-headers: Set-Cookie,Authorization
+    graph-service:
+      path: /graph-service/**
+      serviceId: graph-service
+      sensitive-headers: Set-Cookie,Authorization
+    import-service:
+      path: /import-service/**
+      serviceId: import-service
+      sensitive-headers: Set-Cookie,Authorization
+    gateway-service:
+      path: /gateway-service/**
+      serviceId: gateway-service
+      sensitive-headers: Set-Cookie,Authorization
+    dictionary-service:
+      path: /dictionary-service/**
+      serviceId: dictionary-service
+      sensitive-headers: Set-Cookie,Authorization
+    report-service:
+      path: /report-service/**
+      serviceId: report-service
+      sensitive-headers: Set-Cookie,Authorization
+    scoring-service:
+      path: /scoring-service/**
+      serviceId: scoring-service
+      sensitive-headers: Set-Cookie,Authorization
+    workstation-service:
+      path: /workstation-service/**
+      serviceId: workstation-service
+      sensitive-headers: Set-Cookie,Authorization
+    rule-management-service:
+      path: /rule-management-service/**
+      serviceId: rule-management-service
+      sensitive-headers: Set-Cookie,Authorization
+  host:
+    connect-timeout-millis: 5000
+    socket-timeout-millis: 10000
+
+#logging:
+#  config: http://${org.one.nextbi.config_ip:localhost}:8888/client-service/default/master/logback-spring.xml

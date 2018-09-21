@@ -1,0 +1,14 @@
+server:
+  port: 8761
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${nextbi.security.system-auth.user}:${nextbi.security.system-auth.password}@${org.one.nextbi.zonehost:localhost}:8761/eureka/
+    register-with-eureka: false
+    fetch-registry: false
+    instance:
+        prefer-ip-address: true
+  server:
+    maxThreadsForPeerReplication: 0 # количество тредов, выделенных на работу с другими экземплярами эврики
+    enable-self-preservation: false

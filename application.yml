@@ -10,6 +10,7 @@ nextbi:
     password: 123456
   rabbitmq:
     ip: ${nextbi.profile}.one.nextbi.ru # IP адрес RabbitMQ
+    password: ${spring.application.name} # общий пароль для всех модулей
   logback:
     ip: ${nextbi.ip}
     level: INFO
@@ -97,8 +98,7 @@ spring:
                 port: 5672
                 virtual-host: vh_notification
                 username: ${spring.application.name}
-                password: ${spring.application.name}
-
+                password: ${nextbi.rabbitmq.password}
 eureka:
   client:
     service-url:

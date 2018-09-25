@@ -99,6 +99,13 @@ spring:
                 virtual-host: vh_notification
                 username: ${spring.application.name}
                 password: ${nextbi.rabbitmq.password}
+  rabbitmq:
+    host: ${nextbi.rabbitmq.ip:localhost}
+    port: 5672
+    virtual-host: ${spring.cloud.stream.binders.rabbit_antifraud.environment.spring.rabbitmq.virtual-host:spring.cloud.stream.binders.rabbit_notification.environment.spring.rabbitmq.virtual-host}
+    username: ${spring.application.name}
+    password: ${nextbi.rabbitmq.password}
+
 eureka:
   client:
     service-url:

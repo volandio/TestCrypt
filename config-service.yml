@@ -1,11 +1,6 @@
 spring:
-  #  security:
-  #    user:
-  #      name: XXX
-  #      password: XXX
   cloud:
     config:
-      override-none: true # разрешение на переопределение данной конфигурации локальной
       server:
         jdbc:
           sql:  "with vars as (select ? :: varchar as app, ? :: varchar   as profile, ? :: varchar  as  label ) select t1.key, case when (t2.value is null) then t3.value else t2.value end from (SELECT distinct key from properties where (APPLICATION = (select app from vars) or APPLICATION = 'all') and PROFILE = (select profile from vars) and LABEL = (select label from vars)) t1 left outer join (select key, value from properties where APPLICATION = (select app from vars) and PROFILE = (select profile from vars) and LABEL = (select label from vars)) t2 on t2.key = t1.key left outer join (select key, value from properties where APPLICATION = 'all' and PROFILE = (select profile from vars) and LABEL = (select label from vars)) t3 on t3.key = t1.key;"
@@ -15,7 +10,6 @@ spring:
       bus:
         refresh:
           enabled: false
-
   datasource:
     url: jdbc:postgresql://${nextbi.database.ip:localhost}:5432/${nextbi.profile:dev}_config
     username: postgres
@@ -41,14 +35,3 @@ spring:
       ddl-auto: update
       naming:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-  rabbitmq:
-    host: ${nextbi.rabbitmq.ip:localhost}
-    username: "${spring.application.name}"
-    password: "${spring.application.name}"
-    port: 5672
-    virtual-host: vh_notification
-
-#nextbi.rabbitmq.ip: dev.one.nextbi.ru
-nextbi.rabbitmq.ip: localhost
-#nextbi.database.ip: 192.168.50.115
-nextbi.database.ip: localhost

@@ -14,7 +14,7 @@ nextbi:
   logback:
     ip: ${nextbi.ip}
     level: INFO
-  message:
+  message: # TODO удалить и использовать nextbi.antifraud.rabbit.message
     path:
       NONE: enrichment-service
       ADAK_DONE: enrichment-service
@@ -46,6 +46,37 @@ nextbi:
     system-auth:
       user: discUser
       password: discPassword
+  antifraud:
+    datasource:
+        url: jdbc:postgresql://${nextbi.database.ip:localhost}:5432/${nextbi.profile}_import_data
+        username: postgres
+        password: 123456
+        driver-class-name: org.postgresql.Driver
+        schema: test_bank_schema
+    rabbit:
+        message:
+            path:
+              NONE: enrichment-service
+              ADAK_DONE: enrichment-service
+              ENRICHED: scoring-service
+              RDAK_REQUIRED: workstation-service
+              ADAK_REQUIRED: transaction-gate-service
+              R_PROCCESSED: ml-service
+              APPROVED: scoring-service
+              REFUSED: scoring-service
+              NO_DATA: scoring-service
+              WORKFLOW_DONE: exit-gate-service
+    ignite:
+        mode: multicast # vm или multicast
+        client: true
+        vm:
+            addresses: 127.0.0.1
+        multicast:
+            group: 228.1.2.1
+            port: 47401
+        data-storage:
+            enabled: false
+        backup: 1 # кол-во нод, на которые должны реплицироваться данные
 
 spring:
   jackson:
@@ -88,6 +119,9 @@ spring:
           group: input
           destination: auth-service
           binder: rabbit_notification
+        springCloudBusInput:
+          destination: springCloudBus
+          binder: springCloudBus
       binders:
         rabbit_notification:
           type: rabbit
@@ -99,6 +133,26 @@ spring:
                 virtual-host: vh_notification
                 username: ${spring.application.name}
                 password: ${nextbi.rabbitmq.password}
+        springCloudBus:
+          type: rabbit
+          defaultCandidate: false
+          environment:
+            spring:
+              rabbitmq:
+                host: ${nextbi.rabbitmq.ip:localhost}
+                port: 5672
+                virtual-host: vh_notification
+                username: ${spring.application.name}
+                password: ${nextbi.rabbitmq.password}
+    refresh:
+      extra-refreshable:
+      - javax.sql.DataSource
+  rabbitmq: # для актуатора
+    host: ${nextbi.rabbitmq.ip:localhost}
+    port: 5672
+    virtual-host: ${spring.cloud.stream.binders.rabbit_antifraud.environment.spring.rabbitmq.virtual-host:vh_notification}
+    username: ${spring.application.name}
+    password: ${nextbi.rabbitmq.password}
 
 eureka:
   client:

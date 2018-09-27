@@ -20,9 +20,9 @@ spring:
           ssl:
             enable: true
             trust: mail.nextbi.ru
-#  cloud:
-#    config:
-#      override-none: true # разрешение на переопределение данной конфигурации локальной
+  cloud:
+    config:
+      override-none: true # разрешение на переопределение данной конфигурации локальной
 
 nextbi:
   auth-service:
@@ -66,9 +66,6 @@ nextbi:
       removable: false
 
 eureka:
-  client:
-    service-url:
-      defaultZone: http://${nextbi.security.system-auth.user}:${nextbi.security.system-auth.password}@localhost:8761/eureka/
   instance:
     metadata-map:
       NEXTBI_NAME: Управление доступом

@@ -1,0 +1,5 @@
+nextbi:
+  logback:
+    level: INFO
+org.nextbi.one.scoring_service:
+  storeStat: true

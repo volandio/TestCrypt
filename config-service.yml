@@ -1,3 +1,9 @@
+nextbi:
+  rabbitmq:
+    ip: rabbitmq
+
+server:
+  port: 8888
 spring:
   cloud:
     config:
@@ -12,8 +18,8 @@ spring:
           enabled: false
   datasource:
     url: jdbc:postgresql://${nextbi.database.ip:localhost}:5432/${nextbi.profile:dev}_config
-    username: postgres
-    password: 123456
+    username: ${nextbi.database.username}
+    password: ${nextbi.database.password}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
@@ -35,3 +41,9 @@ spring:
       ddl-auto: update
       naming:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+  rabbitmq:
+    host: ${nextbi.rabbitmq.ip:localhost}
+    username: "${spring.application.name}"
+    password: "${spring.application.name}"
+    port: 5672
+    virtual-host: vh_notification

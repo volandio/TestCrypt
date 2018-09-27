@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    config:
+      overrideNone: true
+
+nextbi:
+  enrichment-service:
+    async:
+      cores: 2 # пул ядер

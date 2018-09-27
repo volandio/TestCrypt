@@ -1,0 +1,35 @@
+spring:
+  cloud:
+    config:
+      overrideNone: true
+
+nextbi:
+  security:
+    api-system-auth:
+  feign:
+    auth-service: http://${nextbi.ip}:8088
+    import-service: http://${nextbi.ip}:8082
+  dictionary-service:
+    async:
+      cores: 2 # пул ядер
+  logback:
+    level: INFO
+  access-objects:
+    service-object:
+      uuid: 9de8a7df-80c6-4ba1-a75e-51c9de31ff42
+      uuid-parent: ${nextbi.security.main-object-uuid}
+      type: service
+      login: ${nextbi.security.supervisor-login}
+      readable: true
+      writable: false
+      executable: false
+      removable: false
+    dictionary:
+      uuid: a3dfe3a4-dbdc-4c7b-acaa-2db05ad56300
+      uuid-parent: ${nextbi.access-objects.service-object.uuid}
+      type: functions
+      login: ${nextbi.security.supervisor-login}
+      readable: true
+      writable: true
+      executable: false
+      removable: false

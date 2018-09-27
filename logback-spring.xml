@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!--ФИЛЬТР, КОТОРЫЙ НЕЛЬЗЯ ПЕРЕОПРЕДЕЛИТЬ!-->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
         </filter>
@@ -27,7 +28,34 @@
         </layout>
     </appender>
 
+    <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>${nextbi.logback.ip}:6000</destination>
+        <!--ФИЛЬТР, КОТОРЫЙ НЕЛЬЗЯ ПЕРЕОПРЕДЕЛИТЬ!-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder
+                class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <mdc/>
+                <logLevel/>
+                <loggerName/>
+                <pattern>
+                    <pattern>
+                        {
+                        "serviceName": "${applicationName}"
+                        }
+                    </pattern>
+                </pattern>
+                <threadName/>
+                <message/>
+                <stackTrace/>
+            </providers>
+        </encoder>
+    </appender>
+
     <root level="${nextbi.logback.level}">
+        <appender-ref ref="STASH"/>
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
     </root>

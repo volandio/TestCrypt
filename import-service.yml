@@ -1,0 +1,92 @@
+nextbi:
+  access-objects:
+    service-object:
+      uuid: b08df839-656d-42bb-90c5-7167bbcd6caf
+      uuid-parent: ${nextbi.security.main-object-uuid}
+      type: service
+      login: ${nextbi.security.supervisor-login}
+      readable: true
+      writable: false
+      executable: false
+      removable: false
+    connection:
+      uuid: 8a7b0a45-477f-446d-91bb-fbc99e229d8d
+      uuid-parent: ${nextbi.access-objects.service-object.uuid}
+      type: functions
+      login: ${nextbi.security.supervisor-login}
+      readable: true
+      writable: true
+      executable: false
+      removable: false
+    connector_upload:
+      uuid: 3b2252cd-7b92-4c2e-9116-c30fe85f32ba
+      uuid-parent: ${nextbi.access-objects.service-object.uuid}
+      type: functions
+      login: ${nextbi.security.supervisor-login}
+      readable: true
+      writable: true
+      executable: false
+      removable: false
+    file_source_upload:
+      uuid: 9dad9f1a-9da8-4a6a-a6d6-bb3113d99127
+      uuid-parent: ${nextbi.access-objects.service-object.uuid}
+      type: functions
+      login: ${nextbi.security.supervisor-login}
+      readable: true
+      writable: true
+      executable: false
+      removable: false
+    explorer:
+      uuid: 78a6fe1d-4c76-4236-a73a-d68ab1799035
+      uuid-parent: ${nextbi.access-objects.service-object.uuid}
+      type: functions
+      login: ${nextbi.security.supervisor-login}
+      readable: true
+      writable: true
+      executable: false
+      removable: false
+    dashboard:
+      uuid: cef5c74f-bfab-4017-bab4-7ff88ea5a55c
+      uuid-parent: ${nextbi.access-objects.service-object.uuid}
+      type: functions
+      login: ${nextbi.security.supervisor-login}
+      readable: true
+      writable: true
+      executable: false
+      removable: false
+    data:
+      uuid: 018e7550-22bd-4b85-920b-83ed9b991256
+      uuid-parent: ${nextbi.access-objects.service-object.uuid}
+      type: functions
+      login: ${nextbi.security.supervisor-login}
+      readable: true
+      writable: true
+      executable: false
+      removable: false
+    model:
+      uuid: 4ee32285-ea34-42ff-a0c0-f97c7ba8650d
+      uuid-parent: ${nextbi.access-objects.service-object.uuid}
+      type: functions
+      login: ${nextbi.security.supervisor-login}
+      readable: true
+      writable: true
+      executable: false
+      removable: false
+    table_view:
+      uuid: 51ed434f-7baa-4b73-926d-091c74e8a68a
+      uuid-parent: ${nextbi.access-objects.service-object.uuid}
+      type: functions
+      login: ${nextbi.security.supervisor-login}
+      readable: true
+      writable: true
+      executable: false
+      removable: false
+    task:
+      uuid: 2b39531b-c8ce-4f9e-90d6-a0f32e132eb7
+      uuid-parent: ${nextbi.access-objects.service-object.uuid}
+      type: functions
+      login: ${nextbi.security.supervisor-login}
+      readable: true
+      writable: true
+      executable: false
+      removable: false

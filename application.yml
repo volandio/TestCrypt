@@ -9,23 +9,23 @@ nextbi:
     username: postgres
     password: 123456
   rabbitmq:
-    ip: ${nextbi.profile}.one.nextbi.ru # IP адрес RabbitMQ
+    ip: ${nextbi.ip} # IP адрес RabbitMQ
     password: ${spring.application.name} # общий пароль для всех модулей
   logback:
     ip: ${nextbi.ip}
     level: INFO
   message: # TODO удалить и использовать nextbi.antifraud.rabbit.message
     path:
-      NONE: enrichment-service
-      ADAK_DONE: enrichment-service
-      ENRICHED: scoring-service
-      RDAK_REQUIRED: workstation-service
-      ADAK_REQUIRED: transaction-gate-service
-      R_PROCCESSED: ml-service
-      APPROVED: scoring-service
-      REFUSED: scoring-service
-      NO_DATA: scoring-service
-      WORKFLOW_DONE: exit-gate-service
+      NONE: antifraud_enrichment-service
+      ADAK_DONE: antifraud_enrichment-service
+      ENRICHED: antifraud_scoring-service
+      RDAK_REQUIRED: antifraud_workstation-service
+      ADAK_REQUIRED: antifraud_transaction-gate-service
+      R_PROCCESSED: antifraud_ml-service
+      APPROVED: antifraud_scoring-service
+      REFUSED: antifraud_scoring-service
+      NO_DATA: antifraud_scoring-service
+      WORKFLOW_DONE: exit_gate-servicи
   security:
     address-infrastructure: /actuator/** #через запятую без пробелов, инфраструктурные апи, на которые не нужна авторизация, не должно включать в себя /api/**
     forbidden-to-edit-menu: # объекты(функции и сервисы, одновременно меню), на которые захардкожена возможность иметь права только группе SUPERVISOR
@@ -56,16 +56,16 @@ nextbi:
     rabbit:
         message:
             path:
-              NONE: enrichment-service
-              ADAK_DONE: enrichment-service
-              ENRICHED: scoring-service
-              RDAK_REQUIRED: workstation-service
-              ADAK_REQUIRED: transaction-gate-service
-              R_PROCCESSED: ml-service
-              APPROVED: scoring-service
-              REFUSED: scoring-service
-              NO_DATA: scoring-service
-              WORKFLOW_DONE: exit-gate-service
+              NONE: antifraud_enrichment-service
+              ADAK_DONE: antifraud_enrichment-service
+              ENRICHED: antifraud_scoring-service
+              RDAK_REQUIRED: antifraud_workstation-service
+              ADAK_REQUIRED: antifraud_transaction-gate-service
+              R_PROCCESSED: antifraud_ml-service
+              APPROVED: antifraud_scoring-service
+              REFUSED: antifraud_scoring-service
+              NO_DATA: antifraud_scoring-service
+              WORKFLOW_DONE: antifraud_exit-gate-service
     ignite:
         mode: multicast # vm или multicast
         client: true
@@ -98,6 +98,12 @@ spring:
       default:
         contentType: application/json
       bindings:
+        antifraud_input:
+          group: input
+          destination: antifraud_${spring.application.name}
+          binder: rabbit_notification
+        antifraud_output:
+          binder: rabbit_notification
         notification_output:
           destination: ${spring.application.name}
           binder: rabbit_notification
@@ -121,7 +127,12 @@ spring:
           binder: rabbit_notification
         springCloudBusInput:
           destination: springCloudBus
-          binder: springCloudBus
+          binder: rabbit_notification
+      rabbit:
+        bindings:
+          antifraud_output:
+            producer:
+              declareExchange: false
       binders:
         rabbit_notification:
           type: rabbit
@@ -133,24 +144,14 @@ spring:
                 virtual-host: vh_notification
                 username: ${spring.application.name}
                 password: ${nextbi.rabbitmq.password}
-        springCloudBus:
-          type: rabbit
-          defaultCandidate: false
-          environment:
-            spring:
-              rabbitmq:
-                host: ${nextbi.rabbitmq.ip:localhost}
-                port: 5672
-                virtual-host: vh_notification
-                username: ${spring.application.name}
-                password: ${nextbi.rabbitmq.password}
+      default-binder: rabbit_notification
     refresh:
       extra-refreshable:
       - javax.sql.DataSource
   rabbitmq: # для актуатора
     host: ${nextbi.rabbitmq.ip:localhost}
     port: 5672
-    virtual-host: ${spring.cloud.stream.binders.rabbit_antifraud.environment.spring.rabbitmq.virtual-host:vh_notification}
+    virtual-host: vh_notification
     username: ${spring.application.name}
     password: ${nextbi.rabbitmq.password}
 

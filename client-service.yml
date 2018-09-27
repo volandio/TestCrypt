@@ -111,5 +111,5 @@ zuul:
     connect-timeout-millis: 5000
     socket-timeout-millis: 10000
 
-#logging:
-#  config: http://${org.one.nextbi.config_ip:localhost}:8888/client-service/default/master/logback-spring.xml
+logging:
+  config: http://${org.one.nextbi.config_ip:localhost}:8888/client-service/default/master/logback-spring.xml

@@ -1,3 +1,6 @@
+logging:
+  config: http://XXX:XXX@localhost:8888/auth-service/default/master/logback-spring.xml
+
 server:
   port: 8088
 spring:
@@ -20,9 +23,9 @@ spring:
           ssl:
             enable: true
             trust: mail.nextbi.ru
-  cloud:
-    config:
-      override-none: true # разрешение на переопределение данной конфигурации локальной
+#  cloud:
+#    config:
+#      override-none: true # разрешение на переопределение данной конфигурации локальной
 
 nextbi:
   auth-service:

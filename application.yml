@@ -9,7 +9,8 @@ nextbi:
     username: postgres
     password: 123456
   rabbitmq:
-    ip: ${nextbi.ip} # IP адрес RabbitMQ
+#    ip: ${nextbi.ip} # IP адрес RabbitMQ
+    ip: localhost # IP адрес RabbitMQ
     password: ${spring.application.name} # общий пароль для всех модулей
   logback:
     ip: ${nextbi.ip}

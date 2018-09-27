@@ -66,6 +66,9 @@ nextbi:
       removable: false
 
 eureka:
+  client:
+    service-url:
+      defaultZone: http://${nextbi.security.system-auth.user}:${nextbi.security.system-auth.password}@localhost:8761/eureka/
   instance:
     metadata-map:
       NEXTBI_NAME: Управление доступом

@@ -93,8 +93,8 @@ spring:
           lob:
             non_contextual_creation: true
   cloud:
-#    config:
-#      override-none: true # разрешение на переопределение данной конфигурации локальной
+    config:
+      override-none: true # разрешение на переопределение данной конфигурации локальной
     stream:
       default:
         contentType: application/json
@@ -159,6 +159,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://${nextbi.security.system-auth.user}:${nextbi.security.system-auth.password}@${org.one.nextbi.zonehost:localhost}:8761/eureka/
+#      defaultZone: http://${nextbi.security.system-auth.user}:${nextbi.security.system-auth.password}@${org.one.nextbi.zonehost:localhost}:8761/eureka/
+      defaultZone: http://${nextbi.security.system-auth.user}:${nextbi.security.system-auth.password}@${org.one.nextbi.zonehost}:8761/eureka/
   instance:
     prefer-ip-address: true

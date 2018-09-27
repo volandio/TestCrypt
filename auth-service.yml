@@ -1,6 +1,3 @@
-logging:
-  config: http://XXX:XXX@localhost:8888/auth-service/default/master/logback-spring.xml
-
 server:
   port: 8088
 spring:

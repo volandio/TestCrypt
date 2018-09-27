@@ -103,8 +103,8 @@ spring:
           group: input
           destination: antifraud_${spring.application.name}
           binder: rabbit_notification
-        antifraud_output:
-          binder: rabbit_notification
+#        antifraud_output:
+#          binder: rabbit_notification
         notification_output:
           destination: ${spring.application.name}
           binder: rabbit_notification
@@ -129,11 +129,11 @@ spring:
         springCloudBusInput:
           destination: springCloudBus
           binder: rabbit_notification
-      rabbit:
-        bindings:
-          antifraud_output:
-            producer:
-              declareExchange: false
+#      rabbit:
+#        bindings:
+#          antifraud_output:
+#            producer:
+#              declareExchange: false
       binders:
         rabbit_notification:
           type: rabbit

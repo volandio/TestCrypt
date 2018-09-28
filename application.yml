@@ -93,8 +93,8 @@ spring:
           lob:
             non_contextual_creation: true
   cloud:
-    config:
-      override-none: true # разрешение на переопределение данной конфигурации локальной
+#    config:
+#      override-none: true # разрешение на переопределение данной конфигурации локальной
     stream:
       default:
         contentType: application/json
